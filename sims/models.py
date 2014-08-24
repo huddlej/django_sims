@@ -7,6 +7,9 @@ class Sample(models.Model):
     """
     name = models.CharField(max_length=30, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Pipeline(models.Model):
     """
@@ -15,6 +18,9 @@ class Pipeline(models.Model):
     """
     name = models.CharField(max_length=100)
     version = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name + " (" + self.version + ")"
 
 
 class LogEntry(models.Model):
