@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from sims.models import LogEntry, Pipeline, Sample
+
+admin.site.register(LogEntry)
+admin.site.register(Pipeline)
+admin.site.register(Sample)
