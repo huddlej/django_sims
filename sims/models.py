@@ -32,5 +32,5 @@ class LogEntry(models.Model):
     pipeline = models.ForeignKey(Pipeline)
     # TODO: add model for rule tied to Pipeline and only log rule?
     rule = models.CharField(max_length=100)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10)
