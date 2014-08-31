@@ -10,7 +10,7 @@ from sims.models import LogEntry
 pipeline_name = "test"
 pipeline_version = "0.1"
 
-n = [1, 2, 3]
+n = ["NA12878", "NA18507"]
 
 rule all:
     input: expand("{n}.txt", n=n)
