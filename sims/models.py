@@ -23,10 +23,19 @@ class Pipeline(models.Model):
         return self.name + " (" + self.version + ")"
 
 
+class LogEntryManager(models.Manager):
+    def log(self, sample_name, pipeline_name, pipeline_version, rule, status):
+        sample, sample_created = Sample.objects.get_or_create(name=sample_name)
+        pipeline, pipeline_created = Pipeline.objects.get_or_create(name=pipeline_name, version=pipeline_version)
+        self.create(sample=sample, pipeline=pipeline, rule=rule, status=status)
+
+
 class LogEntry(models.Model):
     """
     Represents a checkpoint during a specific pipeline for a given sample.
     """
+    objects = LogEntryManager()
+
     # TODO: implement sample as a GenericForeignKey?
     sample = models.ForeignKey(Sample)
     pipeline = models.ForeignKey(Pipeline)
