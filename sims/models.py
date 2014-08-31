@@ -24,9 +24,8 @@ class Pipeline(models.Model):
 
 
 class LogEntryManager(models.Manager):
-    def log(self, sample_name, pipeline_name, pipeline_version, rule, status):
+    def log(self, sample_name, pipeline, rule, status):
         sample, sample_created = Sample.objects.get_or_create(name=sample_name)
-        pipeline, pipeline_created = Pipeline.objects.get_or_create(name=pipeline_name, version=pipeline_version)
         self.create(sample=sample, pipeline=pipeline, rule=rule, status=status)
 
 
