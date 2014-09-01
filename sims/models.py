@@ -22,19 +22,31 @@ class Pipeline(models.Model):
     def __str__(self):
         return self.name + " (" + self.version + ")"
 
-
-class LogEntryManager(models.Manager):
-    def log(self, sample_name, pipeline, rule, status):
+    def log(self, rule, sample_name, status):
+        """
+        Create a log entry for this pipeline with the given sample, rule, and
+        status.
+        """
         sample, sample_created = Sample.objects.get_or_create(name=sample_name)
-        self.create(sample=sample, pipeline=pipeline, rule=rule, status=status)
+        LogEntry.objects.create(sample=sample, pipeline=self, rule=rule, status=status)
+
+    def start(self, rule, sample_name):
+        """
+        Helper method to simplify logging the start of a rule.
+        """
+        return self.log(rule, sample_name, "started")
+
+    def finish(self, rule, sample_name):
+        """
+        Helper method to simplify logging the finish of a rule.
+        """
+        return self.log(rule, sample_name, "finished")
 
 
 class LogEntry(models.Model):
     """
     Represents a checkpoint during a specific pipeline for a given sample.
     """
-    objects = LogEntryManager()
-
     # TODO: implement sample as a GenericForeignKey?
     sample = models.ForeignKey(Sample)
     pipeline = models.ForeignKey(Pipeline)
