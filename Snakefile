@@ -17,9 +17,9 @@ rule all:
 rule single:
     output: "{sample}.txt"
     run:
-        pipeline.start(wildcards.sample, output)
+        pipeline.start(output, wildcards.sample)
         shell("echo {wildcards.sample} > {output}; sleep 1")
-        pipeline.finish(wildcards.sample, output)
+        pipeline.finish(output, wildcards.sample)
 
 rule clean:
     shell: "rm -f *.txt"
