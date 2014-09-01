@@ -9,17 +9,17 @@ from sims.models import Pipeline
 
 pipeline, pipeline_created = Pipeline.objects.get_or_create(name="test", version="0.1")
 
-n = ["NA12878", "NA18507"]
+samples = ["NA12878", "NA18507"]
 
 rule all:
-    input: expand("{n}.txt", n=n)
+    input: expand("{sample}.txt", sample=samples)
 
 rule single:
-    output: "{n}.txt"
+    output: "{sample}.txt"
     run:
-        pipeline.start(wildcards.n, output)
-        shell("echo {wildcards.n} > {output}; sleep 1")
-        pipeline.finish(wildcards.n, output)
+        pipeline.start(wildcards.sample, output)
+        shell("echo {wildcards.sample} > {output}; sleep 1")
+        pipeline.finish(wildcards.sample, output)
 
 rule clean:
     shell: "rm -f *.txt"
